@@ -102,6 +102,10 @@ function set_hotkey(hotbar, slot, action_type, action, target)
         action = 'lastsynth'
         alias = 'Last Synth'
         icon = 'synth'
+    elseif (action == 'Fish') then
+        action = 'fish'
+        alias = 'Fish'
+        icon = 'fish'
     end
 
     local new_action = action_manager:build(action_type, action, target, alias, icon)
@@ -130,7 +134,9 @@ end
 -- initialize addon
 function initialize()
     local windower_player = windower.ffxi.get_player()
-    local server = resources.servers[windower.ffxi.get_info().server].en
+    local server = resources.servers[windower.ffxi.get_info().server] 
+		and resources.servers[windower.ffxi.get_info().server].en 
+		or "PrivateServer_"..tostring(windower.ffxi.get_info().server)
 
     if windower_player == nil then return end
 

@@ -73,7 +73,8 @@ local action_types = {
     ['MAP'] = 28,
     ['LAST_SYNTH'] = 29,
     ['SWITCH_TARGET'] = 30,
-    ['SHOW_CREDITS'] = 31
+    ['SHOW_CREDITS'] = 31,
+    ['FISH'] = 32,
 }
 
 local prefix_lookup = {
@@ -98,8 +99,8 @@ local prefix_lookup = {
     [action_types.WARD] = 'ja',
     [action_types.EFFUSION] = 'ja',
     [action_types.GEOMANCY] = 'ma',
-    [action_types.TRUST] = 'ma',
-    [action_types.MOUNT] = 'mount',
+    --[action_types.TRUST] = 'ma',
+    --[action_types.MOUNT] = 'mount',
     [action_types.USABLE_ITEM] = 'item',
     [action_types.TRADABLE_ITEM] = 'item',
     [action_types.RANGED_ATTACK] = 'ct',
@@ -107,7 +108,8 @@ local prefix_lookup = {
     [action_types.ASSIST] = 'assist',
     [action_types.MAP] = 'map',
     [action_types.LAST_SYNTH] = 'ct',
-    [action_types.SWITCH_TARGET] = 'ta'
+    [action_types.SWITCH_TARGET] = 'ta',
+    [action_types.FISH] = 'fish'
 }
 
 local action_targets = {
@@ -484,11 +486,13 @@ function action_binder:submit_selected_option()
             self.action_target = 'stnpc'
             self.state = states.SELECT_BUTTON_ASSIGNMENT
             self:display_button_assigner()
-        elseif (self.action_type == action_types.MAP or self.action_type == action_types.LAST_SYNTH) then
+        elseif (self.action_type == action_types.MAP or self.action_type == action_types.LAST_SYNTH or self.action_type == action_types.FISH) then
             if (self.action_type == action_types.LAST_SYNTH) then
                 self.action_name = 'Last Synth'
             elseif (self.action_type == action_types.MAP) then
                 self.action_name = 'View Map'
+            elseif (self.action_type == action_types.FISH) then
+                self.action_name = 'Fish'
             end
             self.action_target = nil
             self.state = states.SELECT_BUTTON_ASSIGNMENT
@@ -702,8 +706,8 @@ function action_binder:display_action_type_selector()
     if (main_job == 'GEO' or sub_job == 'GEO') then
         action_type_list:append({id = action_types.GEOMANCY, name = 'Geomancy', icon = get_icon_pathbase() .. '/jobs/GEO.png'})
     end
-    action_type_list:append({id = action_types.TRUST, name = 'Call Trust', icon = get_icon_pathbase() .. '/trust/yoran-oran.png'})
-    action_type_list:append({id = action_types.MOUNT, name = 'Call Mount', icon = get_icon_pathbase() .. '/mount.png'})
+    -- action_type_list:append({id = action_types.TRUST, name = 'Call Trust', icon = get_icon_pathbase() .. '/trust/yoran-oran.png'})
+    -- action_type_list:append({id = action_types.MOUNT, name = 'Call Mount', icon = get_icon_pathbase() .. '/mount.png'})
     action_type_list:append({id = action_types.USABLE_ITEM, name = 'Use Item', icon = get_icon_pathbase() .. '/usable-item.png'})
     action_type_list:append({id = action_types.TRADABLE_ITEM, name = 'Trade Item', icon = get_icon_pathbase() .. '/item.png'})
     action_type_list:append({id = action_types.RANGED_ATTACK, name = 'Ranged Attack', icon = get_icon_pathbase() .. '/ranged.png'})
@@ -712,6 +716,7 @@ function action_binder:display_action_type_selector()
     action_type_list:append({id = action_types.SWITCH_TARGET, name = 'Switch Target', icon = get_icon_pathbase() .. '/targetnpc.png'})
     action_type_list:append({id = action_types.MAP, name = 'View Map', icon = get_icon_pathbase() .. '/map.png'})
     action_type_list:append({id = action_types.LAST_SYNTH, name = 'Repeat Last Synth', icon = get_icon_pathbase() .. '/synth.png'})
+    action_type_list:append({id = action_types.FISH, name = 'Fish', icon = get_icon_pathbase() .. '/fish.png'})
     action_type_list:append({id = action_types.SHOW_CREDITS, name = 'XIVCrossbar Credits', icon = 'credit_avatars/xiv.png'})
     self.selector:display_options(action_type_list)
 
@@ -759,10 +764,10 @@ function action_binder:display_action_selector()
         self:display_effusion_selector()
     elseif (self.action_type == action_types.GEOMANCY) then
         self:display_geomancy_selector()
-    elseif (self.action_type == action_types.TRUST) then
-        self:display_trust_selector()
-    elseif (self.action_type == action_types.MOUNT) then
-        self:display_mount_selector()
+    --[[elseif (self.action_type == action_types.TRUST) then
+        self:display_trust_selector()]]
+    --[[elseif (self.action_type == action_types.MOUNT) then
+        self:display_mount_selector()]]
     elseif (self.action_type == action_types.USABLE_ITEM) then
         self:display_usable_item_selector()
     elseif (self.action_type == action_types.TRADABLE_ITEM) then
